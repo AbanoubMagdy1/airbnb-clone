@@ -1,3 +1,5 @@
+import Container from './components/Container'
+import Navbar from './components/Navbar/Navbar'
 import './globals.css'
 
 export const metadata = {
@@ -14,8 +16,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <main className="max-w-[95%] w-[80rem] mx-auto mt-6 mb-4">   
-         {children}
+        <Navbar/>
+        <main>   
+         <Container>
+            {children}
+         </Container>
         </main>
       </body>
     </html>
