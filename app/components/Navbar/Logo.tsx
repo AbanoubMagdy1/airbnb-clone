@@ -6,7 +6,7 @@ import React from 'react'
 function Logo() {
   return (
     <Image
-        className='hidden md:block cursor-pointer'
+        className='hidden lg:block cursor-pointer'
         src='/images/logo1.png'
         alt='Logo'
         width={100}
