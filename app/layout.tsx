@@ -2,7 +2,8 @@ import Container from './components/Container'
 import Navbar from './components/Navbar/Navbar'
 import {Nunito} from 'next/font/google'
 import './globals.css'
-import Loader from './components/Loader'
+import RegisterModal from './components/Modals/RegisterModal'
+import ToastProvider from './components/ToastProvider'
 
 export const metadata = {
   title: 'Airbnb clone',
@@ -20,7 +21,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={nunito.className}>
+        <ToastProvider/>
         <Navbar/>
+        <RegisterModal/>
+
         <main className='pt-28'>   
          <Container>
             {children}

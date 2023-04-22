@@ -43,6 +43,8 @@ function useAxios<T>({ type = "get", url = "", config = {}, body } : UseAxiosPro
     let configWithSignal = { ...config, signal: controller.current.signal };
 
     setLoading(true);
+    setErr(null)
+    setData(null);
 
     try {
       let resp;

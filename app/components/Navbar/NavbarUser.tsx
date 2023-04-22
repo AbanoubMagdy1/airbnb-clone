@@ -8,7 +8,7 @@ import UserMenuItem from './UserMenuItem';
 import useRegisterModel from '@/app/state/useRegisterModal';
 
 function NavbarUser() {
-  const closeRegisterModel = useRegisterModel(state => state.onClose)
+  const openRegisterModel = useRegisterModel(state => state.onOpen)
   const [isOpen, toggleOpen] = useToggle(false)
 
   return (
@@ -26,7 +26,7 @@ function NavbarUser() {
 
         {isOpen && (<div className='absolute right-0 top-14 bg-white rounded-lg w-[40vw] md:w-3/4 shadow-lg cursor-pointer'>
           <UserMenuItem label='Login' onClick={() => {}}/>
-          <UserMenuItem label='Register' onClick={closeRegisterModel}/>
+          <UserMenuItem label='Register' onClick={openRegisterModel}/>
         </div>)}
     </div>
   )
