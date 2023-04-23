@@ -12,6 +12,7 @@ import toast from 'react-hot-toast';
 import {FaGoogle} from 'react-icons/fa'
 import { AiFillGithub } from 'react-icons/ai';
 import Button from '../Button';
+import Heading from '../Heading';
 
 const registerSchema = yup.object().shape({
   name: yup.string().required().min(2),
@@ -46,6 +47,7 @@ function RegisterModal() {
 
   const bodyContent = (
     <div className='flex flex-col gap-3'>
+      <Heading title="Welcome to airbnb" subtitle='Register to start enjoying our services!'/>
       <Input
         id='email'
         type='text'
@@ -81,12 +83,14 @@ function RegisterModal() {
         label='Register with Google'
         icon={FaGoogle}
         outline
+        disabled={loading}
         onClick={() => {}}
       />
       <Button
         label='Register with Github'
         icon={AiFillGithub}
         outline
+        disabled={loading}
         onClick={() => {}}
       />
       <p className='text-center text-neutral-600'>
