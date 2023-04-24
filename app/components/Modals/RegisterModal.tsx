@@ -35,6 +35,7 @@ function RegisterModal() {
 
   useEffect(() => {
     if (data) {
+      console.log(data)
       onClose();
       toast.success('Registered successfully')
     }

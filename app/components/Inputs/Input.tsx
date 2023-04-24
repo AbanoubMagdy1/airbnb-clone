@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ComponentProps } from 'react'
+import React, { ComponentProps, memo } from 'react'
 import { FieldValues,  UseFormRegister } from 'react-hook-form';
 
 interface InputOwnProps {
@@ -14,9 +14,7 @@ type InputProps = InputOwnProps & Omit<ComponentProps<'input'>, keyof InputOwnPr
 
 
 function Input({label, error, register, ...rest}: InputProps) {
-  console.log(error)
 
-  
   return (
     <div className='relative'>
         <input className={`
@@ -58,4 +56,4 @@ function Input({label, error, register, ...rest}: InputProps) {
   )
 }
 
-export default Input
+export default memo(Input)
