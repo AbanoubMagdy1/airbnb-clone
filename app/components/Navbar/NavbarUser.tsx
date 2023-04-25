@@ -6,10 +6,19 @@ import { AiOutlineMenu } from 'react-icons/ai'
 import { TiUser } from 'react-icons/ti'
 import UserMenuItem from './UserMenuItem';
 import useRegisterModel from '@/app/state/useRegisterModal';
+import useEventListener from '@/app/hooks/useEventListener';
 
 function NavbarUser() {
   const openRegisterModel = useRegisterModel(state => state.onOpen)
   const [isOpen, toggleOpen] = useToggle(false)
+
+  useEventListener(document.body, 'click', function closeMenu(e: MouseEvent) {
+    const target = e.target as HTMLBodyElement;
+    if(target?.closest('.navbar-menu') || !isOpen) return;
+
+    toggleOpen();
+    
+  })
 
   return (
     <div className='relative flex items-center gap-x-3'>
@@ -24,7 +33,7 @@ function NavbarUser() {
             <TiUser className='rounded-full bg-gray-500 text-white' size={30}/>
         </div>
 
-        {isOpen && (<div className='absolute right-0 top-14 bg-white rounded-lg w-[40vw] md:w-3/4 shadow-lg cursor-pointer'>
+        {isOpen && (<div className='navbar-menu absolute right-0 top-14 bg-white rounded-lg w-[40vw] md:w-3/4 shadow-lg cursor-pointer'>
           <UserMenuItem label='Login' onClick={() => {}}/>
           <UserMenuItem label='Register' onClick={openRegisterModel}/>
         </div>)}
