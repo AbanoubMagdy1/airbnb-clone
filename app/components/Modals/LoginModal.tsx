@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useState } from 'react'
 import Modal from './Modal'
+import useLoginrModal from '@/app/state/useLoginModal';
 import useRegisterModel from '@/app/state/useRegisterModal'
-import useAxios from '@/app/hooks/useAxios'
 import { useForm, FieldValues } from 'react-hook-form'
 import Input from '../Inputs/Input';
 import * as yup from 'yup';
@@ -13,61 +13,56 @@ import {FaGoogle} from 'react-icons/fa'
 import { AiFillGithub } from 'react-icons/ai';
 import Button from '../Button';
 import Heading from '../Heading';
-import useLoginrModal from '@/app/state/useLoginModal';
+import {signIn} from 'next-auth/react'
+import { useRouter } from 'next/navigation';
 
-const registerSchema = yup.object().shape({
-  name: yup.string().required().min(2),
+const loginSchema = yup.object().shape({
   email: yup.string().required().email(),
   password: yup.string().required().min(6),
 });
 
-function RegisterModal() {
+function LoginModal() {
+  const router = useRouter();  
   const registerModal = useRegisterModel()
   const loginModal = useLoginrModal()
+  const [loading, setLoading] = useState(false)
 
   const {register, handleSubmit, formState: {errors} } = useForm<FieldValues>({
-    values: {name: '', email: '', password: ''},
-    resolver: yupResolver(registerSchema),
+    values: { email: '', password: ''},
+    resolver: yupResolver(loginSchema),
   });
 
-  const {call, loading, err, data} = useAxios({
-    url: '/api/auth/register',
-    type: 'post',
-  })
+  function submit(data: FieldValues) {
+    setLoading(true)
+    signIn('credentials', {redirect: false, ...data})
+    .then((res) => {
+        if(res?.error) {
+            toast.error(res.error)
+        } else {
+            toast.success("Logged in successfully")
+            loginModal.onClose()
+            router.refresh();
+        }
+    })
+    .finally(() => {
+        setLoading(false)
+    })
+  }
 
   const onToggle = useCallback(() => {
-    loginModal.onOpen();
-    registerModal.onClose();
+    loginModal.onClose();
+    registerModal.onOpen();
   }, [loginModal, registerModal])
-
-  useEffect(() => {
-    if (data) {
-      onToggle()
-      toast.success('Registered successfully')
-    }
-
-    if (err) {
-      toast.error(err)
-    }
-  }, [loading])
 
   const bodyContent = (
     <div className='flex flex-col gap-3'>
-      <Heading title="Welcome to airbnb" subtitle='Register to start enjoying our services!'/>
+      <Heading title="Welcome back" subtitle='Login to your account'/>
       <Input
         id='email'
         type='text'
         label="Email"
         placeholder=' '
         error={errors['email']?.message}
-        register={register}
-      />
-      <Input
-        id='name'
-        type='text'
-        label="Name"
-        placeholder=' '
-        error={errors['name']?.message}
         register={register}
       />
       <Input
@@ -86,23 +81,23 @@ function RegisterModal() {
     <div className='flex flex-col gap-3'>
       <hr className='my-3'/>
       <Button
-        label='Register with Google'
+        label='Continue with Google'
         icon={FaGoogle}
         outline
         disabled={loading}
         onClick={() => {}}
       />
       <Button
-        label='Register with Github'
+        label='Continue with Github'
         icon={AiFillGithub}
         outline
         disabled={loading}
         onClick={() => {}}
       />
       <p className='text-center text-neutral-600'>
-        Already have an account? 
+        Haven&apos;t Registered yet? 
         <span onClick={onToggle} className='font-semibold text-primary-500 cursor-pointer'>
-          Login
+            Register
         </span>
       </p>
     </div>
@@ -110,16 +105,16 @@ function RegisterModal() {
 
   return (
     <Modal
-        isOpen={registerModal.isOpen}
-        onClose={registerModal.onClose}
-        title='Register'
+        isOpen={loginModal.isOpen}
+        onClose={loginModal.onClose}
+        title='LogIn'
         disabled={loading}
-        onSubmit={handleSubmit(call)}
+        onSubmit={handleSubmit(submit)}
         body={bodyContent}
         footer={footerContent}
-        actionLabel='Register'
+        actionLabel='LogIn'
     />
   )
 }
 
-export default RegisterModal
+export default LoginModal
