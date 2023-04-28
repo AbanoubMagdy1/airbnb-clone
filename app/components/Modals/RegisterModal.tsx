@@ -49,6 +49,7 @@ function RegisterModal() {
     if (err) {
       toast.error(err)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading])
 
   const bodyContent = (

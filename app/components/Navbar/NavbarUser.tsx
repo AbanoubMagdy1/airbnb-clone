@@ -7,9 +7,11 @@ import { TiUser } from 'react-icons/ti'
 import UserMenuItem from './UserMenuItem';
 import useRegisterModel from '@/app/state/useRegisterModal';
 import useEventListener from '@/app/hooks/useEventListener';
+import useLoginrModal from '@/app/state/useLoginModal';
 
 function NavbarUser() {
   const openRegisterModel = useRegisterModel(state => state.onOpen)
+  const openLoginModel = useLoginrModal(state => state.onOpen)
   const [isOpen, toggleOpen] = useToggle(false)
 
   useEventListener(document.body, 'click', function closeMenu(e: MouseEvent) {
@@ -34,7 +36,7 @@ function NavbarUser() {
         </div>
 
         {isOpen && (<div className='navbar-menu absolute right-0 top-14 bg-white rounded-lg w-[40vw] md:w-3/4 shadow-lg cursor-pointer'>
-          <UserMenuItem label='Login' onClick={() => {}}/>
+          <UserMenuItem label='Login' onClick={openLoginModel}/>
           <UserMenuItem label='Register' onClick={openRegisterModel}/>
         </div>)}
     </div>
