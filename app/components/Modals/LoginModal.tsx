@@ -9,12 +9,10 @@ import Input from '../Inputs/Input';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import toast from 'react-hot-toast';
-import {FaGoogle} from 'react-icons/fa'
-import { AiFillGithub } from 'react-icons/ai';
-import Button from '../Button';
 import Heading from '../Heading';
 import {signIn} from 'next-auth/react'
 import { useRouter } from 'next/navigation';
+import ModalAuthFooter from './ModalAuthFooter';
 
 const loginSchema = yup.object().shape({
   email: yup.string().required().email(),
@@ -80,20 +78,7 @@ function LoginModal() {
   const footerContent = (
     <div className='flex flex-col gap-3'>
       <hr className='my-3'/>
-      <Button
-        label='Continue with Google'
-        icon={FaGoogle}
-        outline
-        disabled={loading}
-        onClick={() => {}}
-      />
-      <Button
-        label='Continue with Github'
-        icon={AiFillGithub}
-        outline
-        disabled={loading}
-        onClick={() => {}}
-      />
+      <ModalAuthFooter loading={loading}/>
       <p className='text-center text-neutral-600'>
         Haven&apos;t Registered yet? 
         <span onClick={onToggle} className='font-semibold text-primary-500 cursor-pointer'>

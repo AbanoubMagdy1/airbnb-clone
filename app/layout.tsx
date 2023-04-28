@@ -6,6 +6,9 @@ import RegisterModal from './components/Modals/RegisterModal'
 import ToastProvider from './components/ToastProvider'
 import { Metadata } from 'next'
 import LoginModal from './components/Modals/LoginModal'
+import axios from 'axios'
+import { SafeUser } from './types'
+import getCurrentUser from './actions/getCurrentUser'
 
 export const metadata : Metadata = {
   title: 'Airbnb clone',
@@ -16,16 +19,19 @@ export const metadata : Metadata = {
 
 const nunito = Nunito({weight: ["200", "400", "500", "600", "800"], subsets: ['latin']})
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+
+  const user = await getCurrentUser()
+
   return (
     <html lang="en">
       <body className={nunito.className}>
         <ToastProvider/>
-        <Navbar/>
+        <Navbar currentUser={user}/>
         <RegisterModal/>
         <LoginModal/>
 

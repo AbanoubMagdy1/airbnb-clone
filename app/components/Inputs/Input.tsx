@@ -20,12 +20,15 @@ function Input({label, error, register, ...rest}: InputProps) {
         <input className={`
           peer
           w-full
-          border-2
+          border-[1px]
           rounded-md
           p-3
           pt-5
           text-neutral-800
           text-lg
+          focus:outline
+          focus:outline-black
+          focus:outline-2
           ${error ? 'border-rose-500' : 'border-neutral-400'}
         `} 
         {...register(rest.id)}

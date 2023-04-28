@@ -9,11 +9,9 @@ import Input from '../Inputs/Input';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import toast from 'react-hot-toast';
-import {FaGoogle} from 'react-icons/fa'
-import { AiFillGithub } from 'react-icons/ai';
-import Button from '../Button';
 import Heading from '../Heading';
 import useLoginrModal from '@/app/state/useLoginModal';
+import ModalAuthFooter from './ModalAuthFooter';
 
 const registerSchema = yup.object().shape({
   name: yup.string().required().min(2),
@@ -85,21 +83,7 @@ function RegisterModal() {
 
   const footerContent = (
     <div className='flex flex-col gap-3'>
-      <hr className='my-3'/>
-      <Button
-        label='Register with Google'
-        icon={FaGoogle}
-        outline
-        disabled={loading}
-        onClick={() => {}}
-      />
-      <Button
-        label='Register with Github'
-        icon={AiFillGithub}
-        outline
-        disabled={loading}
-        onClick={() => {}}
-      />
+      <ModalAuthFooter loading={loading}/>
       <p className='text-center text-neutral-600'>
         Already have an account? 
         <span onClick={onToggle} className='font-semibold text-primary-500 cursor-pointer'>
