@@ -10,6 +10,7 @@ import useLoginrModal from '@/app/state/useLoginModal';
 import Avatar from './Avatar';
 import { SafeUser } from '@/app/types';
 import { signOut } from 'next-auth/react';
+import useCreateListingModal from '@/app/state/useCreateListingModal';
 
 interface Props {
   currentUser: SafeUser | null
@@ -18,6 +19,8 @@ interface Props {
 function NavbarUser({currentUser}: Props) {
   const openRegisterModel = useRegisterModel(state => state.onOpen)
   const openLoginModel = useLoginrModal(state => state.onOpen)
+  const openListingModal = useCreateListingModal(state => state.onOpen);
+
   const [isOpen, toggleOpen] = useToggle(false)
 
   useEventListener(document.body, 'click', function closeMenu(e: MouseEvent) {
@@ -28,9 +31,18 @@ function NavbarUser({currentUser}: Props) {
     
   })
 
+  function handleOpenListingModal(){
+    if(!currentUser) {
+      return openLoginModel();
+    }
+
+    openListingModal();
+  }
+
   return (
     <div className='relative flex items-center gap-x-3'>
-        <div className='hidden md:block font-semibold p-3 hover:bg-slate-100 transition cursor-pointer rounded-full'>
+        <div onClick={handleOpenListingModal}
+        className='hidden md:block font-semibold p-3 hover:bg-slate-100 transition cursor-pointer rounded-full'>
             Airbnb your home
         </div>
         <div 
@@ -47,6 +59,7 @@ function NavbarUser({currentUser}: Props) {
                 <UserMenuItem label='My Listings' onClick={() => {}}/>
                 <UserMenuItem label='My Reservations' onClick={() => {}}/>
                 <UserMenuItem label='My Favorites' onClick={() => {}}/>
+                <UserMenuItem label='Create Listing' onClick={openListingModal}/>
                 <UserMenuItem label='Logout' onClick={signOut}/>
             </>
           ) : (

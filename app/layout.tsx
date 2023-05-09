@@ -9,6 +9,7 @@ import LoginModal from './components/Modals/LoginModal'
 import axios from 'axios'
 import { SafeUser } from './types'
 import getCurrentUser from './actions/getCurrentUser'
+import CreateListingModal from './components/Modals/CreateListingModal'
 
 export const metadata : Metadata = {
   title: 'Airbnb clone',
@@ -34,6 +35,7 @@ export default async function RootLayout({
         <Navbar currentUser={user}/>
         <RegisterModal/>
         <LoginModal/>
+        <CreateListingModal/>
 
         <main className='pt-28'>   
          <Container>
