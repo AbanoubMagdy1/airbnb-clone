@@ -5,6 +5,7 @@ import useCreateListingModal from '@/app/state/useCreateListingModal'
 import Modal from './Modal'
 import CategorySelect from '../createListingSteps/Categories/CategorySelect'
 import { FieldValues, useForm } from 'react-hook-form'
+import CountrySelect from '../createListingSteps/CountrySelect'
 
 enum STEPS {
     CATEGORY = 0,
@@ -19,11 +20,13 @@ function CreateListingModal() {
 
   const { register, watch, setValue, handleSubmit, formState: {errors} } = useForm<FieldValues>({
     values: {
-        category: ''
+        category: '',
+        country: null,
     }
   })
 
   const category = watch('category');
+  const country = watch('country');
 
   function customSetValue(id: string, value: any){
     setValue(id, value, {
@@ -55,6 +58,7 @@ function CreateListingModal() {
   const body = (
     <>
         {step == STEPS.CATEGORY && <CategorySelect setValue={customSetValue} category={category}/>}
+        {step == STEPS.LOCATION && <CountrySelect setValue={customSetValue} country={country}/>}
     </>
   );
 
@@ -64,7 +68,7 @@ function CreateListingModal() {
         title="Create Listing"
         body={body}
         onClose={createListingModal.onClose}
-        onSubmit={createListingModal.onClose}
+        onSubmit={nextStep}
         actionLabel={actionLabel}
         secondaryAction={step == STEPS.CATEGORY ? undefined : prevStep}
         secondaryActionLabel={secondaryActionLabel}

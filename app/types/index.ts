@@ -12,3 +12,11 @@ export interface ICategory {
     label: string;
     description: string;
 }
+
+export interface ICountry {
+    value: string;
+    label: string;
+    flag: string;
+    region: string;
+    latlng: [number, number];
+}

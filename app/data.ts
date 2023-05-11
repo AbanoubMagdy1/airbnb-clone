@@ -1,10 +1,12 @@
-import { ICategory } from "./types";
+import { ICategory, ICountry } from "./types";
 import {TbBeach, TbMountain, TbPool} from 'react-icons/Tb'
 import {GiBarn, GiBoatFishing, GiCactus, GiCastle, GiCaveEntrance, GiForestCamp, GiIsland, GiWindmill} from 'react-icons/Gi'
 import {MdOutlineVilla} from 'react-icons/Md'
 import { FaSkiing } from 'react-icons/fa'
 import { BsSnow } from 'react-icons/bs'
 import {IoDiamond} from 'react-icons/io5'
+
+import worldCountries from 'world-countries'
 
 export const categories: ICategory[] = [
     {
@@ -83,3 +85,11 @@ export const categories: ICategory[] = [
       description: 'This property is brand new and luxurious!'
     }
   ]
+
+export const countries: ICountry[] = worldCountries.map((country) => ({
+    value: country.name.common,
+    label: country.cca3,
+    flag: country.flag,
+    region: country.region,
+    latlng: country.latlng
+}));
