@@ -1,4 +1,4 @@
-import NextAuth , {AuthOptions} from 'next-auth'
+import NextAuth , {AuthOptions, DefaultSession} from 'next-auth'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import prismaClient from '@/app/libs/prismaClient'
 import Credentials from 'next-auth/providers/credentials'
@@ -6,6 +6,18 @@ import GithubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
 
 import bcrypt from 'bcrypt'
+
+declare module "next-auth" {
+    /**
+     * Returned by `useSession`, `getSession`, `getServerSession` and received as a prop on the `SessionProvider` React Context
+     */
+    interface Session {
+      user: {
+        /** The user's postal address. */
+        id?: string
+      } & DefaultSession["user"]
+    }
+}
 
 export const authOptions: AuthOptions = {
     adapter: PrismaAdapter(prismaClient),
@@ -50,6 +62,21 @@ export const authOptions: AuthOptions = {
             }
         })
     ],
+    callbacks: {
+        session: async ({ session, token }) => {
+          if (session?.user) {
+            session.user.id = token.uid as string;
+          }
+          return session;
+        },
+        jwt: async ({ user, token }) => {
+          if (user) {
+            token.uid = user.id;
+          }
+          return token;
+        },
+      },
+    
     pages: {
         signIn: '/',
       },

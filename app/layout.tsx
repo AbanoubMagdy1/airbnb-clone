@@ -8,7 +8,7 @@ import { Metadata } from 'next'
 import LoginModal from './components/Modals/LoginModal'
 import axios from 'axios'
 import { SafeUser } from './types'
-import getCurrentUser from './actions/getCurrentUser'
+import {getCurrentUser} from './actions/getCurrentUser'
 import CreateListingModal from './components/Modals/CreateListingModal'
 
 export const metadata : Metadata = {

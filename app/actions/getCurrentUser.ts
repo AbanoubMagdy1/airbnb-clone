@@ -7,9 +7,10 @@ export async function getSession() {
   return await getServerSession(authOptions)
 }
 
-export default async function getCurrentUser() {
+export async function getCurrentUser() {
   try {
     const session = await getSession();
+    console.log({session})
 
     if (!session?.user?.email) {
       return null;
@@ -32,6 +33,19 @@ export default async function getCurrentUser() {
       emailVerified: 
         currentUser.emailVerified?.toISOString() || null,
     };
+  } catch (error: any) {
+    return null;
+  }
+}
+
+export async function getCurrentUserId() {
+  try {
+    const session = await getSession();
+
+    if (session?.user?.id) {
+      return session.user.id
+    }
+    return null
   } catch (error: any) {
     return null;
   }
