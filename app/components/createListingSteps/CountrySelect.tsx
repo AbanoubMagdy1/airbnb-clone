@@ -6,9 +6,10 @@ import Heading from '../Heading';
 import Select from 'react-select';
 import { countries } from '@/app/data';
 import Map from '../maps/Map';
+import { FormValues } from '../Modals/CreateListingModal';
 
 interface Props {
-    setValue: (id: string, value: any) => void;
+    setValue: (id: keyof FormValues, value: any) => void;
     country: ICountry | null;
 }
 

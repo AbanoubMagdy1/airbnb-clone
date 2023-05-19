@@ -2,10 +2,11 @@ import React, { memo } from 'react'
 import Heading from '../../Heading'
 import { categories } from '@/app/data'
 import SingleCategory from './SingleCategory'
+import { FormValues } from '../../Modals/CreateListingModal';
 
 interface Props {
-    setValue: (id: string, value: any) => void;
-    category: string
+    setValue: (id: keyof FormValues, value: any) => void;
+    category: string | undefined;
 }
 
 function CategorySelect({category: selectedCategory, setValue} : Props) {

@@ -6,6 +6,9 @@ import Modal from './Modal'
 import CategorySelect from '../createListingSteps/Categories/CategorySelect'
 import { FieldValues, useForm } from 'react-hook-form'
 import CountrySelect from '../createListingSteps/CountrySelect'
+import DetailsStep from '../createListingSteps/Details/DetailsStep'
+import { Listing } from '@prisma/client'
+import { ICountry } from '@/app/types'
 
 enum STEPS {
     CATEGORY = 0,
@@ -14,21 +17,29 @@ enum STEPS {
     PHOTOS = 3
 }
 
+export type FormValues = Partial<Listing> & {country: ICountry | null}
+
+function createDetails(values: FormValues){
+  return {bathRoomCount: values.bathroomCount, roomCount: values.roomCount, guestCount: values.guestCount}
+}
+
 function CreateListingModal() {
   const createListingModal = useCreateListingModal()
   const [step, setStep] = useState(STEPS.CATEGORY)
 
-  const { register, watch, setValue, handleSubmit, formState: {errors} } = useForm<FieldValues>({
+  const { register, watch, setValue, handleSubmit, formState: {errors} } = useForm<FormValues>({
     values: {
         category: '',
         country: null,
+        roomCount: 1,
+        bathroomCount: 1,
+        guestCount: 1
     }
   })
 
-  const category = watch('category');
-  const country = watch('country');
+  const formValues = watch();
 
-  function customSetValue(id: string, value: any){
+  function customSetValue(id: keyof FormValues, value: any){
     setValue(id, value, {
         shouldValidate: true
     })
@@ -57,8 +68,9 @@ function CreateListingModal() {
 
   const body = (
     <>
-        {step == STEPS.CATEGORY && <CategorySelect setValue={customSetValue} category={category}/>}
-        {step == STEPS.LOCATION && <CountrySelect setValue={customSetValue} country={country}/>}
+        {step == STEPS.CATEGORY && <CategorySelect setValue={customSetValue} category={formValues.category}/>}
+        {step == STEPS.LOCATION && <CountrySelect setValue={customSetValue} country={formValues.country}/>}
+        {step == STEPS.DETAILS && <DetailsStep setValue={customSetValue} details={createDetails(formValues)}/>}
     </>
   );
 
