@@ -4,11 +4,12 @@ import React, { useMemo, useState } from 'react'
 import useCreateListingModal from '@/app/state/useCreateListingModal'
 import Modal from './Modal'
 import CategorySelect from '../createListingSteps/Categories/CategorySelect'
-import { FieldValues, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import CountrySelect from '../createListingSteps/CountrySelect'
 import DetailsStep from '../createListingSteps/Details/DetailsStep'
 import { Listing } from '@prisma/client'
 import { ICountry } from '@/app/types'
+import ImageUpload from '../createListingSteps/ImageUpload'
 
 enum STEPS {
     CATEGORY = 0,
@@ -33,7 +34,8 @@ function CreateListingModal() {
         country: null,
         roomCount: 1,
         bathroomCount: 1,
-        guestCount: 1
+        guestCount: 1,
+        imageSrc: '',
     }
   })
 
@@ -71,6 +73,7 @@ function CreateListingModal() {
         {step == STEPS.CATEGORY && <CategorySelect setValue={customSetValue} category={formValues.category}/>}
         {step == STEPS.LOCATION && <CountrySelect setValue={customSetValue} country={formValues.country}/>}
         {step == STEPS.DETAILS && <DetailsStep setValue={customSetValue} details={createDetails(formValues)}/>}
+        {step == STEPS.PHOTOS && <ImageUpload setValue={customSetValue} image={formValues.imageSrc}/>}
     </>
   );
 
